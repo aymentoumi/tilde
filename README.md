@@ -1,16 +1,17 @@
 Tilde enables to easily build Flutter Single-Page Application (SPA) using Component and imperative programming model.
+
 ![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/tilde.png)
 
 ## Features
 
-1. Simplifies Flutter model by combining "widgets" into ready-to-use "components" with imperative programming model.
+1. Simplifies Flutter model by combining "widgets" into easy-to-use "components".
 2. Handles app route management.
 
 ## Component
 
-Component is like a StatefullWiget but without complexities.
-It gives the ~ operator to get the widget (Widget = ~Component) and for that reason the project is named Tilde.
-It exposes _setState_ function to rebuild the widget.
+Component is like a flutter StatefullWidget but without much complexity.
+It gives the ~ operator to get the widget (_**Widget = ~Component**_) which is the project name (**Tilde**).
+It exposes _**setState**_ function to rebuild the widget.
 
 ### Counter app
 
@@ -71,18 +72,18 @@ void main() => runApp(MaterialApp(home: ~MyApp()));
 
 SPA class is used as a base class for application and will gives you many facilities:
 
-1. Define application initial route `dart super.initialRoute`.
-2. Handle app route management using the function `dart Widget onNavigate(BuildContext)` that called evey time the location is resolved to build the application widget and the optional function `dart String? onChanging(String newRoute)` that run before location is resolved to protect or redirect routes.
-3. Access to the application any where in your code through the static method `dart SPA.of<T extends SPA>()` but be aware of null.
+1. Define application initial route `super.initialRoute`.
+2. Handle app route management using the function `Widget onNavigate(BuildContext)` that called evey time the location is resolved to build the application widget and the optional function `String? onChanging(String newRoute)` that run before location is resolved to protect or redirect routes.
+3. Access to the application any where in your code through the static method `SPA.of<T extends SPA>()` but be aware of null.
 4. After getting the application instance you can get access to the route and getting the url query params.
 
 ### Route management
 
 Route is a portion of application URL after # symbol. Route reflects the current state of the app. Route management allows user interface views organization and controls navigation between them.
 
-Initial application route, if not set in application constructor is /. Application route can be obtained by reading `dart SPA.of()?.route` property.
+Initial application route, if not set in application constructor is /. Application route can be obtained by reading `SPA.of()?.route` property.
 
-Every time the route in the URL is changed the Application `dart Widget onNavigate(BuildContext context)` function is called to return the corresponding view according to the current route. For example, let's add a new message showing the current route each time it changes:
+Every time the route in the URL is changed the Application `Widget onNavigate(BuildContext context)` function is called to return the corresponding view according to the current route. For example, let's add a new message showing the current route each time it changes:
 
 ```dart
 import 'package:flutter/material.dart';
@@ -131,7 +132,7 @@ void main() {
 }
 ```
 
-Route can be changed programmatically, by updating `dart SPA.of()?.route` property. Click "Reset" button and you'll see application URL is changed to / and a new item is pushed in a browser history. You can use browser "Back" button to navigate to a previous route.
+Route can be changed programmatically, by updating `SPA.of()?.route` property. Click "Reset" button and you'll see application URL is changed to / and a new item is pushed in a browser history. You can use browser "Back" button to navigate to a previous route.
 
 Try navigating between views programmatically using buttons, Back/Forward browser buttons, manually changing route in the URL - it works no matter what! :)
 
