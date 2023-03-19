@@ -74,10 +74,12 @@ void main() => runApp(MaterialApp(home: ~MyApp()));
 
 SPA class is used as a base class for application and will gives you many facilities:
 
-1. Define application initial route `super.initialRoute`.
-2. Handle app route management using the function `Widget onNavigate(BuildContext)` that called evey time the location is resolved to build the application widget and the optional function `String? onChanging(String newRoute)` that run before location is resolved to protect or redirect routes.
-3. Access to the application any where in your code through the static method `SPA.of<T extends SPA>()` but be aware of null.
-4. After getting the application instance you can get access to the route and getting the url query params.
+- Define application initial route `super.initialRoute`.
+- Handle app route management using two functions:
+  > `Widget onNavigate(BuildContext)` that is called evey time the location is resolved to build the application widget.
+  > `String? onChanging(String newRoute)` optional function that run before `onNavigate` to protect or redirect routes.
+- Access to the application any where in your code through the static method `SPA.of<T extends SPA>()` but be aware of null.
+- After getting the application instance you can get access to the route and getting the url query params.
 
 ### Route management
 
@@ -134,7 +136,9 @@ void main() {
 }
 ```
 
-Route can be changed programmatically, by updating `SPA.of()?.route` property. Click "Reset" button and you'll see application URL is changed to / and a new item is pushed in a browser history. You can use browser "Back" button to navigate to a previous route.
+Route can be changed programmatically, by updating `SPA.of()?.route` property.
+Click "Reset" button and you'll see application URL is changed to / and a new item is pushed in a browser history.
+You can use browser "Back" button to navigate to a previous route.
 
 Try navigating between views programmatically using buttons, Back/Forward browser buttons, manually changing route in the URL - it works no matter what! :)
 

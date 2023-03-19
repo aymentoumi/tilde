@@ -65,7 +65,7 @@ abstract class Component {
 ///
 abstract class SPA {
   ///
-  /// The application initial route set to / as default.
+  /// The application initial route is set to / as default.
   ///
   final String initialRoute;
 
