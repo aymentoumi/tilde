@@ -1,0 +1,152 @@
+Tilde enables to easily build Flutter Single-Page Application (SPA) using Component and imperative programming model.
+![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/tilde.png)
+
+## Features
+
+1. Simplifies Flutter model by combining "widgets" into ready-to-use "components" with imperative programming model.
+2. Handles app route management.
+
+## Component
+
+Component is like a StatefullWiget but without complexities.
+It gives the ~ operator to get the widget (Widget = ~Component) and for that reason the project is named Tilde.
+It exposes _setState_ function to rebuild the widget.
+
+### Counter app
+
+Here is a sample "Counter" app:
+
+```dart
+class Counter extends Component {
+  int _count = 0;
+
+  void increment() => setState(() => _count++);
+
+  @override
+  Widget render(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            'You have pushed the button this many times:',
+          ),
+          Text(
+            '$_count',
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          ElevatedButton(
+            onPressed: () => setState(() => _count = 0),
+            child: const Text('Reset'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MyApp extends SPA {
+  final _counter = Counter();
+
+  @override
+  Widget onNavigate(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: const Text('Flutter Demo Home Page'),
+        ),
+        body: ~_counter,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => _counter.increment(),
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        ),
+      );
+}
+
+void main() => runApp(MaterialApp(home: ~MyApp()));
+```
+
+![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/example/capture.gif)
+
+## Single-Page Application
+
+SPA class is used as a base class for application and will gives you many facilities:
+
+1. Define application initial route `dart super.initialRoute`.
+2. Handle app route management using the function `dart Widget onNavigate(BuildContext)` that called evey time the location is resolved to build the application widget and the optional function `dart String? onChanging(String newRoute)` that run before location is resolved to protect or redirect routes.
+3. Access to the application any where in your code through the static method `dart SPA.of<T extends SPA>()` but be aware of null.
+4. After getting the application instance you can get access to the route and getting the url query params.
+
+### Route management
+
+Route is a portion of application URL after # symbol. Route reflects the current state of the app. Route management allows user interface views organization and controls navigation between them.
+
+Initial application route, if not set in application constructor is /. Application route can be obtained by reading `dart SPA.of()?.route` property.
+
+Every time the route in the URL is changed the Application `dart Widget onNavigate(BuildContext context)` function is called to return the corresponding view according to the current route. For example, let's add a new message showing the current route each time it changes:
+
+```dart
+import 'package:flutter/material.dart';
+import 'package:tilde/tilde.dart';
+import 'package:velocity_x/velocity_x.dart';
+
+class RoutesApp extends SPA {
+  final _routes = <String>[];
+
+  @override
+  Widget onNavigate(BuildContext context) {
+    if (route.isNotEmpty) _routes.add(route);
+    int i = 0;
+
+    return Scaffold(
+      body: _routes.reversed
+          .map<Widget>(
+            (_) {
+              i++;
+              return Text('${i == 1 ? 'Current' : 'Old'}  Route: $_');
+            },
+          )
+          .toList()
+          .addT(
+            ElevatedButton(
+              onPressed: () {
+                _routes.clear();
+                route = '/';
+              },
+              child: const Text('Reset'),
+            ),
+          )
+          .column()
+          .centered(),
+    );
+  }
+}
+
+void main() {
+  final app = RoutesApp();
+  runApp(MaterialApp.router(
+    debugShowCheckedModeBanner: false,
+    routeInformationParser: app.routeInformationParser,
+    routerDelegate: app.routerDelegate,
+  ));
+}
+```
+
+Route can be changed programmatically, by updating `dart SPA.of()?.route` property. Click "Reset" button and you'll see application URL is changed to / and a new item is pushed in a browser history. You can use browser "Back" button to navigate to a previous route.
+
+Try navigating between views programmatically using buttons, Back/Forward browser buttons, manually changing route in the URL - it works no matter what! :)
+
+![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/assets/routes.gif)
+
+## Other examples
+
+[**BG Color**](https://github.com/aymentoumi/tilde/tree/master/others/bg_color)
+
+![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/others/bg_color/capture.gif)
+
+[**Shopping Cart**](https://github.com/aymentoumi/tilde/tree/master/others/shopping_cart)
+
+![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/others/shopping_cart/capture.gif)
+
+[**Todo List**](https://github.com/aymentoumi/tilde/tree/master/others/todo_list)
+
+![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/others/todo_list/capture.gif)
