@@ -76,8 +76,11 @@ SPA class is used as a base class for application and will gives you many facili
 
 - Define application initial route `super.initialRoute`.
 - Handle app route management using two functions:
+
   > `Widget onNavigate(BuildContext)` that is called evey time the location is resolved to build the application widget.
+
   > `String? onChanging(String newRoute)` optional function that run before `onNavigate` to protect or redirect routes.
+
 - Access to the application any where in your code through the static method `SPA.of<T extends SPA>()` but be aware of null.
 - After getting the application instance you can get access to the route and getting the url query params.
 
