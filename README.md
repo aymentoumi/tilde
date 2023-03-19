@@ -1,7 +1,7 @@
 Tilde enables to easily build Flutter Single-Page Application (SPA) using Component and imperative programming model.
 
 <p align="center">
-![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/tilde.png)
+  <img src="https://raw.githubusercontent.com/aymentoumi/tilde/master/tilde.png">
 </p>
 
 ## Features
