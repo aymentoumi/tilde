@@ -70,7 +70,9 @@ void main() => runApp(MaterialApp(home: ~MyApp()));
 
 ![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/example/capture.gif)
 
-## Single-Page Application
+## Navigation and routing
+
+Navigation and routing is an essential feature of Single Page Applications (SPA) which allows organizing application user interface into virtual pages (views) and "navigate" between them while application URL reflects the current state of the app.
 
 SPA class is used as a base class for application and will gives you many facilities:
 
@@ -140,7 +142,7 @@ void main() {
 ```
 
 Route can be changed programmatically, by updating `SPA.of()?.route` property.
-Click "Reset" button and you'll see application URL is changed to / and a new item is pushed in a browser history.
+Click "Reset" button and you'll see application Route is changed to / and a new item is pushed in a browser history.
 You can use browser "Back" button to navigate to a previous route.
 
 Try navigating between views programmatically using buttons, Back/Forward browser buttons, manually changing route in the URL - it works no matter what! :)
@@ -150,13 +152,13 @@ Try navigating between views programmatically using buttons, Back/Forward browse
 ## Other examples
 
 [**BG Color**](https://github.com/aymentoumi/tilde/tree/master/others/bg_color)
-
+A background color changer based on application route.
 ![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/others/bg_color/capture.gif)
 
 [**Shopping Cart**](https://github.com/aymentoumi/tilde/tree/master/others/shopping_cart)
-
+A simple shopping cart application containing a few screens, along with the functionality of adding and removing pre-listed items to and from the cart.
 ![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/others/shopping_cart/capture.gif)
 
 [**Todo List**](https://github.com/aymentoumi/tilde/tree/master/others/todo_list)
-
+A todo list app that allow user to add a new to-do item to the to-do list, to toggle the to-do item from active to complete and  to delete the to-do items.
 ![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/others/todo_list/capture.gif)
