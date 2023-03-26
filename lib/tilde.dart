@@ -2,8 +2,14 @@ library tilde;
 
 import 'package:event/event.dart';
 import 'package:eventsubscriber/eventsubscriber.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_router/url_router.dart';
+
+///
+/// Application type: material for [MaterialApp] and cupertino for [CupertinoApp].
+///
+enum AppType { material, cupertino }
 
 ///
 /// [Component] class allows to create a widget with mutable state.
@@ -69,22 +75,34 @@ abstract class SPA {
   ///
   final String initialRoute;
 
+  ///
+  /// The application type by default is material.
+  ///
+  final AppType appType;
+
   late UrlRouter _router;
 
   ///
   /// Constructor that defines the default application [route].
   ///
-  SPA({this.initialRoute = '/'}) {
+  SPA({this.initialRoute = '/', this.appType = AppType.material}) {
     _instance = this;
   }
 
   ///
   /// Returns the [SPA] widget, used only when don't need App route management.
   ///
-  Widget operator ~() => Navigator(onGenerateRoute: (_) {
-        _router = routerDelegate as UrlRouter;
-        return MaterialPageRoute(builder: onNavigate);
-      });
+  Widget operator ~() => appType == AppType.cupertino
+      ? CupertinoApp.router(
+          debugShowCheckedModeBanner: false,
+          routeInformationParser: routeInformationParser,
+          routerDelegate: routerDelegate,
+        )
+      : MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          routeInformationParser: routeInformationParser,
+          routerDelegate: routerDelegate,
+        );
 
   ///
   /// Returns the current [url] params.
@@ -109,7 +127,7 @@ abstract class SPA {
   ///
   /// Optional, protect or redirect routes.
   ///
-  String? onChanging(String newRoute) => newRoute;
+  String onChanging(String newRoute) => newRoute;
 
   ///
   /// Route information parser ready to be used by the [MaterialApp.router] at a later stage.
@@ -122,13 +140,18 @@ abstract class SPA {
   ///
   RouterDelegate<Object>? get routerDelegate => UrlRouter(
         url: initialRoute,
-        onChanging: (router, newUrl) => onChanging(newUrl),
-        builder: ((router, navigator) => Navigator(
-              onGenerateRoute: (_) {
-                _router = router;
-                return MaterialPageRoute(builder: onNavigate);
-              },
-            )),
+        onChanging: (router, newUrl) {
+          _router = router;
+          return onChanging(newUrl);
+        },
+        builder: ((router, navigator) {
+          _router = router;
+          return Navigator(
+            onGenerateRoute: (_) => appType == AppType.cupertino
+                ? CupertinoPageRoute(builder: onNavigate)
+                : MaterialPageRoute(builder: onNavigate),
+          );
+        }),
       );
 
   ///

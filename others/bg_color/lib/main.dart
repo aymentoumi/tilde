@@ -4,14 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tilde/tilde.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-void main() {
-  final app = BGColorApp();
-  runApp(MaterialApp.router(
-    debugShowCheckedModeBanner: false,
-    routeInformationParser: app.routeInformationParser,
-    routerDelegate: app.routerDelegate,
-  ));
-}
+void main() => runApp(~BGColorApp());
 
 class BGColorApp extends SPA {
   final _colors = <String>{};
@@ -19,7 +12,7 @@ class BGColorApp extends SPA {
   bool removeColor(String color) => _colors.remove(color);
 
   @override
-  String? onChanging(String newRoute) {
+  String onChanging(String newRoute) {
     final color = newRoute.trim().eliminateFirst;
     return (colors[color] == null) ? '/' : newRoute;
   }

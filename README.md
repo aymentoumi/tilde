@@ -77,11 +77,12 @@ Navigation and routing is an essential feature of Single Page Applications (SPA)
 SPA class is used as a base class for application and will gives you many facilities:
 
 - Define application initial route `super.initialRoute`.
+- Define the type of returned app `super.appType` with the `~` operator.
 - Handle app route management using two functions:
 
   > `Widget onNavigate(BuildContext)` that is called evey time the location is resolved to build the application widget.
 
-  > `String? onChanging(String newRoute)` optional function that run before `onNavigate` to protect or redirect routes.
+  > `String onChanging(String newRoute)` optional function that run every time the location is changed and before is resolved to protect or redirect routes.
 
 - Access to the application any where in your code through the static method `SPA.of<T extends SPA>()` but be aware of null.
 - After getting the application instance you can get access to the route and getting the url query params.
@@ -160,5 +161,5 @@ A simple shopping cart application containing a few screens, along with the func
 ![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/others/shopping_cart/capture.gif)
 
 [**Todo List**](https://github.com/aymentoumi/tilde/tree/master/others/todo_list)
-A todo list app that allow user to add a new to-do item to the to-do list, to toggle the to-do item from active to complete and  to delete the to-do items.
+A todo list app that allow user to add a new to-do item to the to-do list, to toggle the to-do item from active to complete and to delete the to-do items.
 ![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/others/todo_list/capture.gif)

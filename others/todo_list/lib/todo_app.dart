@@ -56,5 +56,5 @@ class TodoApp extends SPA {
       );
 
   @override
-  String? onChanging(String newRoute) => '/';
+  String onChanging(String newRoute) => '/';
 }
