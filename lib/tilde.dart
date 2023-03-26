@@ -73,7 +73,7 @@ abstract class SPA {
   ///
   /// The application initial route is set to / as default.
   ///
-  final String initialRoute;
+  String get initialRoute => '/';
 
   ///
   /// The application type by default is material.
@@ -83,9 +83,9 @@ abstract class SPA {
   late UrlRouter _router;
 
   ///
-  /// Constructor that defines the default application [route].
+  /// Constructor that defines the default application type.
   ///
-  SPA({this.initialRoute = '/', this.appType = AppType.material}) {
+  SPA({this.appType = AppType.material}) {
     _instance = this;
   }
 

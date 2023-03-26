@@ -76,11 +76,12 @@ Navigation and routing is an essential feature of Single Page Applications (SPA)
 
 SPA class is used as a base class for application and will gives you many facilities:
 
-- Define application initial route `super.initialRoute`.
-- Define the type of returned app `super.appType` with the `~` operator.
-- Handle app route management using two functions:
+- Help to set the type of returned app ([MaterialApp] or [CupertinoApp]) by the `~` operator, `super.appType` is set to material by default.
+- Handle app route management by overriding these methods:
 
-  > `Widget onNavigate(BuildContext)` that is called evey time the location is resolved to build the application widget.
+  > `String get initialRoute` optional function that define the application initial route dynamically, return '/' by default.
+
+  > `Widget onNavigate(BuildContext)` function called evey time the location is resolved to build the application widget.
 
   > `String onChanging(String newRoute)` optional function that run every time the location is changed and before is resolved to protect or redirect routes.
 

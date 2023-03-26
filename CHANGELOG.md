@@ -14,3 +14,8 @@
 
 - Add app type definition possibility between material and cupertino.
 - Fix code and readme according to the changes.
+
+## 2.0.0
+
+- Remove initialRoute from SPA constructor and change it by initialRoute get method that allow to define initialRoute dynamically before the first run of onNavigate.
+- Fix code and readme according to the changes.
