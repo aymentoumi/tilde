@@ -15,6 +15,34 @@ Component is like a flutter StatefullWidget but without much complexity.
 It gives the ~ operator to get the widget (_**Widget = ~Component**_) which is the project name (**Tilde**).
 It exposes _**setState**_ function to rebuild the widget.
 
+## Extension
+
+Tilde gives you extension that allows the creation of a component from any variable.
+
+```dart
+dynamic.component<T>(Widget Function(BuildContext, ComponentX<T>) builder)
+
+Eg:
+final _counter = 0.component<int>((ctx, self) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            'Counter I:',
+          ),
+          Text(
+            '${self.x}',
+            style: Theme.of(ctx).textTheme.headlineMedium,
+          ),
+          ElevatedButton(
+            onPressed: () => self.x = 0,
+            child: const Text('Reset'),
+          ),
+        ],
+      ));
+```
+
+The extension method will returns a _**ComponentX**_ object with an _**x**_ attribut that refers to the variable used by the extension.
+
 ### Counter app
 
 Here is a sample "Counter" app:
@@ -50,15 +78,44 @@ class Counter extends Component {
 
 class MyApp extends SPA {
   final _counter = Counter();
+  final _counter1 = 0.component<int>((ctx, self) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            'Counter I:',
+          ),
+          Text(
+            '${self.x}',
+            style: Theme.of(ctx).textTheme.headlineMedium,
+          ),
+          ElevatedButton(
+            onPressed: () => self.x = 0,
+            child: const Text('Reset'),
+          ),
+        ],
+      ));
 
   @override
   Widget onNavigate(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Flutter Demo Home Page'),
         ),
-        body: ~_counter,
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ~_counter,
+              const Padding(padding: EdgeInsets.all(8)),
+              ~_counter1,
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _counter.increment(),
+          onPressed: () {
+            _counter.increment();
+            _counter1.setState(() => _counter1.x++);
+          },
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),
@@ -81,7 +138,7 @@ SPA class is used as a base class for application and will gives you many facili
 
   > `String get initialRoute` optional function that define the application initial route dynamically, return '/' by default.
 
-  > `Widget onNavigate(BuildContext)` function called evey time the location is resolved to build the application widget.
+  > `Widget onNavigate(BuildContext)` function called every time the location is resolved to build the application widget.
 
   > `String onChanging(String newRoute)` optional function that run every time the location is changed and before is resolved to protect or redirect routes.
 

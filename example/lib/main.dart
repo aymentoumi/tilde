@@ -5,15 +5,44 @@ void main() => runApp(MaterialApp(home: ~MyApp()));
 
 class MyApp extends SPA {
   final _counter = Counter();
+  final _counter1 = 0.component<int>((ctx, self) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            'Counter I:',
+          ),
+          Text(
+            '${self.x}',
+            style: Theme.of(ctx).textTheme.headlineMedium,
+          ),
+          ElevatedButton(
+            onPressed: () => self.x = 0,
+            child: const Text('Reset'),
+          ),
+        ],
+      ));
 
   @override
   Widget onNavigate(BuildContext context) => Scaffold(
         appBar: AppBar(
           title: const Text('Flutter Demo Home Page'),
         ),
-        body: ~_counter,
+        body: Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ~_counter,
+              const Padding(padding: EdgeInsets.all(8)),
+              ~_counter1,
+            ],
+          ),
+        ),
         floatingActionButton: FloatingActionButton(
-          onPressed: () => _counter.increment(),
+          onPressed: () {
+            _counter.increment();
+            _counter1.setState(() => _counter1.x++);
+          },
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),
@@ -26,13 +55,11 @@ class Counter extends Component {
   void increment() => setState(() => _count++);
 
   @override
-  Widget render(BuildContext context) {
-    return Center(
-      child: Column(
+  Widget render(BuildContext context) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           const Text(
-            'You have pushed the button this many times:',
+            'Counter:',
           ),
           Text(
             '$_count',
@@ -43,7 +70,5 @@ class Counter extends Component {
             child: const Text('Reset'),
           ),
         ],
-      ),
-    );
-  }
+      );
 }

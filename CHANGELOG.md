@@ -19,3 +19,9 @@
 
 - Remove initialRoute from SPA constructor and change it by initialRoute get method that allow to define initialRoute dynamically before the first run of onNavigate.
 - Fix code and readme according to the changes.
+
+## 2.1.0
+
+- Add extension method to create Component from variable.
+- Update the counter example.
+- Update project's readme.

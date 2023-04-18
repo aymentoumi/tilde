@@ -67,6 +67,60 @@ abstract class Component {
 }
 
 ///
+/// Creates Component for [T] attribut
+///
+class ComponentX<T> extends Component {
+  T _x;
+  final Widget Function(BuildContext, ComponentX<T>) builder;
+
+  ComponentX({required T x, required this.builder}) : _x = x;
+
+  ///
+  /// Returns the attribut value
+  ///
+  T get x => _x;
+
+  ///
+  /// Modifies the attribut value
+  ///
+  set x(T v) => setState(() => _x = v);
+
+  @override
+  Widget render(BuildContext context) => builder(context, this);
+}
+
+extension Cmp on dynamic {
+  ///
+  /// Extension method to create Component for variable.
+  ///
+  /// Sample use :
+  /// ```dart
+  /// final _counter = 0.component<int>((ctx, self) => Center(
+  ///         child: Column(
+  ///           mainAxisAlignment: MainAxisAlignment.center,
+  ///           children: <Widget>[
+  ///             const Text(
+  ///               'You have pushed the button this many times:',
+  ///             ),
+  ///             Text(
+  ///               '${self.x}',
+  ///               style: Theme.of(ctx).textTheme.headlineMedium,
+  ///             ),
+  ///             ElevatedButton(
+  ///               onPressed: () => self.setState(() => self.x = 0),
+  ///               child: const Text('Reset'),
+  ///             ),
+  ///           ],
+  ///         ),
+  ///       ));
+  /// ```
+  ///
+  ComponentX<T> component<T>(
+          Widget Function(BuildContext, ComponentX<T>) builder) =>
+      ComponentX<T>(x: this, builder: builder);
+}
+
+///
 /// Abstract Single-Page Application [SPA] class.
 ///
 abstract class SPA {
@@ -105,12 +159,12 @@ abstract class SPA {
         );
 
   ///
-  /// Returns the current [url] params.
+  /// Return the current [url] params.
   ///
   Map<String, String>? get queryParams => _router.queryParams;
 
   ///
-  /// Returns the current [route].
+  /// Return the current [route].
   ///
   String get route => _router.url;
 
