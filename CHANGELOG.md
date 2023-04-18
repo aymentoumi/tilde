@@ -25,3 +25,7 @@
 - Add extension method to create Component from variable.
 - Update the counter example.
 - Update project's readme.
+
+## 2.1.0+1
+
+- Project readme minor fix.
