@@ -125,7 +125,7 @@ class MyApp extends SPA {
 void main() => runApp(MaterialApp(home: ~MyApp()));
 ```
 
-![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/example/capture.gif)
+![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/example/capture_.gif)
 
 ## Navigation and routing
 
