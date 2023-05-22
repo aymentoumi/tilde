@@ -20,7 +20,7 @@ It exposes _**setState**_ function to rebuild the widget.
 Tilde gives you extension that allows the creation of a component for any variable.
 
 ```dart
-dynamic.component<T>(Widget Function(BuildContext, ComponentX<T>) builder)
+dynamic.component<T>(Widget Function(BuildContext, XComponent<T>) builder)
 
 final _counter = 0.component<int>((ctx, self) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +40,7 @@ final _counter = 0.component<int>((ctx, self) => Column(
       ));
 ```
 
-The extension method will returns a _**ComponentX**_ object with an _**x**_ attribut that refers to the variable used by the extension.
+The extension method will returns a _**Component**_ object with an _**x**_ attribut that refers to the variable used by the extension.
 
 ## Counter app
 

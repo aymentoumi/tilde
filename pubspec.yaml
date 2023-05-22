@@ -1,6 +1,6 @@
 name: tilde
 description: A Flutter package enables to easily build Flutter Single-Page Application (SPA) using component and imperative programming model.
-version: 2.1.0+1
+version: 2.2.0
 homepage: https://github.com/aymentoumi/tilde
 
 environment:

@@ -69,11 +69,11 @@ abstract class Component {
 ///
 /// Creates Component for [T] attribut
 ///
-class ComponentX<T> extends Component {
+class XComponent<T> extends Component {
   T _x;
-  final Widget Function(BuildContext, ComponentX<T>) builder;
+  final Widget Function(BuildContext, XComponent<T>) builder;
 
-  ComponentX({required T x, required this.builder}) : _x = x;
+  XComponent({required T x, required this.builder}) : _x = x;
 
   ///
   /// Returns the attribut value
@@ -115,9 +115,9 @@ extension Cmp on dynamic {
   ///       ));
   /// ```
   ///
-  ComponentX<T> component<T>(
-          Widget Function(BuildContext, ComponentX<T>) builder) =>
-      ComponentX<T>(x: this, builder: builder);
+  XComponent<T> component<T>(
+          Widget Function(BuildContext, XComponent<T>) builder) =>
+      XComponent<T>(x: this, builder: builder);
 }
 
 ///
