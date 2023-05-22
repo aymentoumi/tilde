@@ -29,3 +29,7 @@
 ## 2.1.0+1
 
 - Project readme minor fix.
+
+## 2.2.0
+
+- Rename ComponentX as XComponent but preserve compatibility.
