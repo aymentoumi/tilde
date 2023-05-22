@@ -67,6 +67,15 @@ abstract class Component {
 }
 
 ///
+/// Exists only for compatibility reason, use XComponent instead of ComponentX.
+///
+
+@Deprecated('Use XComponent instead of ComponentX')
+class ComponentX<T> extends XComponent<T> {
+  ComponentX({required super.x, required super.builder});
+}
+
+///
 /// Creates Component for [T] attribut
 ///
 class XComponent<T> extends Component {
