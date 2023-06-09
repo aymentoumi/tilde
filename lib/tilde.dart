@@ -1,10 +1,67 @@
 library tilde;
 
-import 'package:event/event.dart';
-import 'package:eventsubscriber/eventsubscriber.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_router/url_router.dart';
+
+class _Controller {
+  late void Function(void Function() fn) _setState;
+  late void Function() _initState;
+  late TickerProvider _vsync;
+  late bool Function() _mounted;
+  late void Function() _didChangeDependencies;
+  late void Function(Widget oldWidget) _didUpdateWidget;
+  late void Function() _deactivate;
+  late void Function() _dispose;
+}
+
+class _Subscriber extends StatefulWidget {
+  const _Subscriber({required this.controller, required this.builder});
+
+  final _Controller controller;
+  final Widget Function(BuildContext) builder;
+
+  @override
+  State<_Subscriber> createState() => _State();
+}
+
+class _State extends State<_Subscriber> with TickerProviderStateMixin {
+  @override
+  void initState() {
+    super.initState();
+    widget.controller._mounted = () => mounted;
+    widget.controller._vsync = this;
+    widget.controller._setState = setState;
+    widget.controller._initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    widget.controller._didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.builder(context);
+
+  @override
+  void didUpdateWidget(covariant _Subscriber oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    widget.controller._didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    widget.controller._deactivate();
+  }
+
+  @override
+  void dispose() {
+    widget.controller._dispose();
+    super.dispose();
+  }
+}
 
 ///
 /// Application type: material for [MaterialApp] and cupertino for [CupertinoApp].
@@ -44,7 +101,50 @@ enum AppType { material, cupertino }
 /// ```
 ///
 abstract class Component {
-  final _event = Event();
+  final _controller = _Controller();
+
+  Component() {
+    _controller._initState = initState;
+    _controller._didChangeDependencies = didChangeDependencies;
+    _controller._didUpdateWidget = didUpdateWidget;
+    _controller._deactivate = deactivate;
+    _controller._dispose = dispose;
+  }
+
+  ///
+  /// the [TickerProvider] for the current context.
+  ///
+  TickerProvider get vsync => _controller._vsync;
+
+  ///
+  /// The framework will call this method exactly once for each [State] object it creates.
+  ///
+  void initState() {}
+
+  ///
+  /// Whether this object widget [State] is currently in a tree.
+  ///
+  bool get mounted => _controller._mounted();
+
+  ///
+  /// This method is also called immediately after [initState].
+  ///
+  void didChangeDependencies() {}
+
+  ///
+  /// Called whenever this object widget configuration changes.
+  ///
+  void didUpdateWidget(covariant Widget oldWidget) {}
+
+  ///
+  /// Called when this object widget is removed from the tree.
+  ///
+  void deactivate() {}
+
+  ///
+  /// Called when this object widget is removed from the tree permanently.
+  ///
+  void dispose() {}
 
   ///
   /// Builds [Component] widget.
@@ -56,14 +156,14 @@ abstract class Component {
   ///
   void setState([VoidCallback? fn]) {
     fn?.call();
-    _event.broadcast();
+    _controller._setState(() {});
   }
 
   ///
   /// Returns [Component] widget.
   ///
-  Widget operator ~() =>
-      EventSubscriber(event: _event, builder: (context, _) => render(context));
+  Widget operator ~() => _Subscriber(
+      controller: _controller, builder: (context) => render(context));
 }
 
 ///

@@ -33,3 +33,10 @@
 ## 2.2.0
 
 - Rename ComponentX as XComponent but preserve compatibility.
+
+## 2.3.0
+
+- Remove unused dependencies.
+- Add lifecycle methods to the Component class.
+- Update example project.
+- Update project Readme

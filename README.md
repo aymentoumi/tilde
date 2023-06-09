@@ -47,33 +47,10 @@ The extension method will returns a _**Component**_ object with an _**x**_ attri
 Here is a sample "Counter" app:
 
 ```dart
-class Counter extends Component {
-  int _count = 0;
+import 'package:flutter/material.dart';
+import 'package:tilde/tilde.dart';
 
-  void increment() => setState(() => _count++);
-
-  @override
-  Widget render(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text(
-            'You have pushed the button this many times:',
-          ),
-          Text(
-            '$_count',
-            style: Theme.of(context).textTheme.headlineMedium,
-          ),
-          ElevatedButton(
-            onPressed: () => setState(() => _count = 0),
-            child: const Text('Reset'),
-          ),
-        ],
-      ),
-    );
-  }
-}
+void main() => runApp(MaterialApp(home: ~MyApp()));
 
 class MyApp extends SPA {
   final _counter = Counter();
@@ -121,10 +98,62 @@ class MyApp extends SPA {
       );
 }
 
-void main() => runApp(MaterialApp(home: ~MyApp()));
+class Counter extends Component {
+  late Animation<double> _animation;
+  late AnimationController _controller;
+
+  int _count = 0;
+
+  Future<void> increment() async {
+    await _controller.reverse();
+    _count++;
+    await _controller.forward();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 200),
+        reverseDuration: const Duration(milliseconds: 200),
+        vsync: vsync);
+    _animation = Tween<double>(begin: 0, end: 1).animate(_controller)
+      ..addListener(() => setState(() {}));
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget render(BuildContext context) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          const Text(
+            'Counter:',
+          ),
+          Text(
+            '$_count',
+            style: Theme.of(context).textTheme.headlineMedium,
+            textScaleFactor: _animation.value,
+          ),
+          ElevatedButton(
+            onPressed: () {
+              _count = 0;
+              _controller.reset();
+              _controller.fling();
+            },
+            child: const Text('Reset'),
+          ),
+        ],
+      );
+}
 ```
 
-![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/example/capture_.gif)
+![image](https://raw.githubusercontent.com/aymentoumi/tilde/master/example/capture.gif)
 
 ## Navigation and routing
 
